@@ -1,0 +1,10 @@
+
+select s.pizzeria from eats e
+ join person p
+  on p.name = e.name
+ join serves s
+  on s.pizza = e.pizza
+ where (p.name = 'Amy' or p.name = 'Fay') and price < 10
+
+
+\project_{pizzeria} \select_{(name = 'Amy' or name = 'Fay') and price < 10} (Eats \join Person \join Serves)

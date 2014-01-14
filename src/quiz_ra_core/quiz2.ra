@@ -1,0 +1,10 @@
+
+select p.name from eats e
+ join person p
+  on p.name = e.name
+ join serves s
+  on s.pizza = e.pizza
+ where p.gender = 'female' and s.pizzeria = 'Straw Hat'
+
+
+\project_{name} \select_{pizzeria = 'Straw Hat' and gender = 'female'} (Eats \join Person \join Serves)

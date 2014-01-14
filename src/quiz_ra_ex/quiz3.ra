@@ -1,0 +1,47 @@
+SELECT pizzeria from serves
+MINUS
+(SELECT
+  s.pizzeria
+FROM
+    ((SELECT
+         DISTINCT
+         e.pizza
+       FROM eats e
+         JOIN person p
+           ON p.name = e.name)
+      MINUS
+      (SELECT
+         DISTINCT
+         e.pizza
+       FROM eats e
+         JOIN person p
+           ON p.name = e.name
+       WHERE p.age > 30)) pza
+    JOIN (
+    SELECT
+      pizza, pizzeria
+    FROM serves) s
+    ON pza.pizza = s.pizza)
+
+
+
+
+  \project_{pizzeria} Serves
+  \diff
+  \project_{pizzeria}
+  (
+    \rename_{pza}
+    (
+      (\project_{pizza} (Eats \join Person))
+      \diff
+      (\project_{pizza} \select_{age > 30} (Eats \join Person))
+    )
+    \join_{pza = pizza}
+    (
+      \project_{pizza, pizzeria} Serves
+    )
+  )
+
+
+
+

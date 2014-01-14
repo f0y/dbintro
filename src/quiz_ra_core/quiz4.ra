@@ -1,0 +1,18 @@
+select s.pizzeria, s.price from eats e
+  join person p
+    on p.name = e.name
+  join serves s
+    on s.pizza = e.pizza
+where p.name = 'Amy' and s.price < 10
+intersect
+select s.pizzeria, s.price from eats e
+  join person p
+    on p.name = e.name
+  join serves s
+    on s.pizza = e.pizza
+where p.name = 'Fay' and s.price < 10
+
+
+\project_{pizzeria} \select_{name = 'Amy' and price < 10} (Eats \join Person \join Serves)
+\intersect
+\project_{pizzeria} \select_{name = 'Fay' and price < 10} (Eats \join Person \join Serves)

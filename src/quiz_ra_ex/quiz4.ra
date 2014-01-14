@@ -1,0 +1,74 @@
+SELECT
+  DISTINCT pizzeria
+FROM serves
+MINUS
+SELECT
+  pizzeria
+FROM
+  ((SELECT
+      pizza,
+      pizzeria
+    FROM
+-- все возможные комбинации для нужных нам пицц и соответствующих им пиццерий
+        (SELECT
+            DISTINCT
+            e.pizza
+          FROM eats e
+            JOIN person p
+              ON p.name = e.name
+          WHERE p.age > 30)
+        CROSS JOIN (
+        (SELECT distinct
+           s.pizzeria
+         FROM eats e
+           JOIN person p
+             ON p.name = e.name
+           JOIN serves s
+             ON s.pizza = e.pizza
+         WHERE p.age > 30)
+
+      ))
+-- из всех возможных комбинаций удаляем фактически существующие
+-- в итоге уничтожатся пиццерии, в которых встречаются КАЖДАЯ из нужных нам пицц
+   MINUS
+   (SELECT
+      s.pizza,
+      s.pizzeria
+    FROM
+        ((SELECT
+            DISTINCT
+            e.pizza
+          FROM eats e
+            JOIN person p
+              ON p.name = e.name
+          WHERE p.age > 30)) pza
+        JOIN (
+               SELECT
+                 pizza,
+                 pizzeria
+               FROM serves) s
+          ON pza.pizza = s.pizza))
+
+
+
+
+\project_{pizzeria} (Serves)
+\diff
+\project_{pizzeria} (
+
+  (\project_{pizza, pizzeria}
+    ((\project_{pizza} \select_{age > 30} (Eats \join Person))
+    \cross
+    (\project_{pizzeria} \select_{age > 30} (Eats \join Person \join Serves))))
+
+  \diff
+
+  (\project_{pizza, pizzeria} (
+    \rename_{pza} (\project_{pizza} \select_{age > 30} (Eats \join Person))
+    \join_{pza = pizza}
+    \project_{pizza, pizzeria} (Serves)))
+)
+
+
+
+

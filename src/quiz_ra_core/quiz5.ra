@@ -1,0 +1,22 @@
+(SELECT
+   p.name
+ FROM eats e
+   JOIN person p
+     ON p.name = e.name
+   JOIN serves s
+     ON s.pizza = e.pizza
+ WHERE s.pizzeria = 'Dominos')
+MINUS
+(SELECT
+   p1.name
+ FROM person p1
+   JOIN frequents f
+     ON f.name = p1.name
+ WHERE f.pizzeria = 'Dominos')
+
+
+\project_{name}
+(\select_{pizzeria = 'Dominos'} (Eats \join Person \join Serves))
+\diff
+ \project_{name}
+(\select_{pizzeria = 'Dominos'} (Person \join Frequents))

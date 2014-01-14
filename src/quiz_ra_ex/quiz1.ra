@@ -1,0 +1,26 @@
+select distinct e.pizza from eats e
+  join person p on p.name = e.name
+  where
+     p.age < 24
+minus
+select distinct e.pizza from eats e
+  join person p on p.name = e.name
+where
+  p.age >= 24
+UNION
+(
+  (select pizza from serves where price < 10) minus
+  (select pizza from serves where price > 10)  )
+
+\project_{pizza}
+  (
+    \project_{pizza} \select_{age < 24} (Eats \join Person)
+    \diff
+    \project_{pizza} \select_{age >= 24} (Eats \join Person)
+    \union
+    (
+      \project_{pizza} \select_{price < 10} Serves
+      \diff
+      \project_{pizza} \select_{price > 10} Serves
+    )
+)

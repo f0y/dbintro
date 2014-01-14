@@ -1,0 +1,6 @@
+select e.pizza from eats e
+ join person p
+  on p.name = e.name
+ where p.age > 20 and p.gender = 'female'
+
+\project_{pizza} \select_{age > 20 and gender = 'female'} (Eats \join Person)

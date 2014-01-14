@@ -1,0 +1,27 @@
+select p.age from eats e
+  join person p on p.name = e.name
+where
+  e.pizza = 'mushroom'
+minus
+select s1.age from
+
+(select p.age from eats e
+  join person p on p.name = e.name
+  where
+     e.pizza = 'mushroom') as s1
+join
+(select p.age from eats e
+  join person p on p.name = e.name
+  where
+  e.pizza = 'mushroom') as s2
+on s2.age > s1.age
+
+
+\project_{age} \select_{pizza = 'mushroom'} (Eats \join Person)
+\diff
+\rename_{age} \project_{age1}
+(
+  (\rename_{age1} \project_{age} \select_{pizza = 'mushroom'} (Eats \join Person))
+    \join_{age2 > age1}
+  (\rename_{age2} \project_{age} \select_{pizza = 'mushroom'} (Eats \join Person))
+)
