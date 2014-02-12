@@ -51,7 +51,7 @@
         <Prereq>CS106A</Prereq>
       </Prerequisites>
     </Course>
-    
+
     <Course Number="CS107" Enrollment="500">
       <Title>Computer Organization and Systems</Title>
       <Description>Introduction to the fundamental concepts of computer systems.</Description>
