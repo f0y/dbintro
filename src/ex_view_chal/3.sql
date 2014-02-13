@@ -1,0 +1,15 @@
+CREATE TRIGGER BOO INSTEAD OF INSERT ON NoRating FOR EACH ROW
+BEGIN
+
+  SELECT
+    raise(IGNORE)
+  WHERE NOT EXISTS
+  (SELECT
+     1
+   FROM Movie
+   WHERE mid = new.mID AND title = new.title);
+
+DELETE FROM Rating WHERE mID = new.mID;
+
+
+END
